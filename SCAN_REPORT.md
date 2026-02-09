@@ -34,7 +34,7 @@ Status: 2026-02-09
 
 ## 2) Business process (extracted from email communication)
 
-Source: [emails/Re- Debrief Hoya Vision Track & Trace 2.eml](emails/Re-%20Debrief%20Hoya%20Vision%20Track%20%26%20Trace%202.eml) and [emails/Re- Debrief Hoya Vision Track & Trace 4.eml](emails/Re-%20Debrief%20Hoya%20Vision%20Track%20%26%20Trace%204.eml)
+Source: internal email threads (intentionally excluded from this repository; see `.gitignore`).
 
 Summary:
 - T&T sends **daily order status emails** to ECPs who have **opted-in**.
