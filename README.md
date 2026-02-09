@@ -57,6 +57,7 @@ Optional ignored file (not committed):
 ## Documentation
 
 - Scan / archeology notes: [SCAN_REPORT.md](SCAN_REPORT.md)
+- Full HTML Email flow (legacy): [FULL_HTML_EMAIL_FLOW.md](FULL_HTML_EMAIL_FLOW.md)
 
 ## Notes
 
