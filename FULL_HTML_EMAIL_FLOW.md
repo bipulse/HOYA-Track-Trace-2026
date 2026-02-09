@@ -65,6 +65,21 @@ Key actions:
 
 ## 3) Step-by-step flow (end-to-end)
 
+### Diagram (high-level)
+
+```mermaid
+flowchart LR
+	Cron["Daily scheduler / cron"] --> Import["Import job (tnt.php)\nSalesforce OAuth → iLog API → MySQL"]
+	Import --> DB["MySQL daily data tables\n(hoya_daily_data_*, seiko_daily_data_*)"]
+	DB --> Build["Email generator (index.php)\nSelect recipients + build blocks"]
+	Build --> Template["HTML template\n(token placeholders like {block1})"]
+	Template --> Email["Final HTML email per recipient"]
+	Email --> SMTP["SMTP send (PHPMailer)"]
+	Email --> Archive["Archive generated HTML"]
+	Email --> Pixel["Open tracking pixel\n(pixel.php → mail_statistics)"]
+	Email --> Unsub["Unsubscribe link\n(unsubscribe.php → unsubscribe table)"]
+```
+
 ### Step 1 — Daily import (scheduled)
 
 A scheduler/cron triggers the import job:
