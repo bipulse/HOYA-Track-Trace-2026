@@ -1,0 +1,21 @@
+# Sensitive / private
+emails/
+assets/snippets/phpimport/config.private.php
+*.private.php
+.env
+.env.*
+
+# Archives / exports (avoid committing customer data)
+*.zip
+*.eml
+
+# Runtime/output
+archive/
+logs/
+
+# OS / editor
+.DS_Store
+.vscode/
+
+# PHP vendor (if you add composer later)
+vendor/
