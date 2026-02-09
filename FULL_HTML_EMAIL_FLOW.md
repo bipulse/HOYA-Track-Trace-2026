@@ -1,5 +1,9 @@
 # Full HTML Email Flow (Legacy PHP)
 
+> This is an **AS-IS (legacy) baseline**.
+> It documents how the old system worked (Pardot-era / PHP-based sending).
+> The **new SFMC flow must be built separately** and will not necessarily mirror these steps 1:1.
+
 This document describes the **legacy “Full HTML Email” flow** in plain language.
 
 It explains how the system:

@@ -1,4 +1,8 @@
-# Hoya Track & Trace (Legacy) — Pardot → SFMC Migration
+# Hoya Track & Trace — Legacy Baseline (Pardot → SFMC Migration)
+
+This repository is primarily an **as-is archive / baseline** of the legacy PHP implementation.
+
+It is **not** the future SFMC solution. The SFMC flow will be designed and implemented separately, using this repo as a reference for requirements and behavior.
 
 This repository contains the legacy PHP implementation used to:
 
@@ -57,7 +61,7 @@ Optional ignored file (not committed):
 ## Documentation
 
 - Scan / archeology notes: [SCAN_REPORT.md](SCAN_REPORT.md)
-- Full HTML Email flow (legacy): [FULL_HTML_EMAIL_FLOW.md](FULL_HTML_EMAIL_FLOW.md)
+- Legacy Full HTML Email flow (baseline): [FULL_HTML_EMAIL_FLOW.md](FULL_HTML_EMAIL_FLOW.md)
 
 ## Notes
 
