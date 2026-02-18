@@ -5,33 +5,37 @@ Open this file in VS Code and use **Markdown Preview** to see the diagram:
 - Preview: `Cmd+Shift+V`
 - Preview to side: `Cmd+K` then `V`
 
+If Mermaid rendering is blocked (e.g. “Unable to render rich display”), open the static SVG fallback:
+
+![Order Data Load Flow](ORDER_DATA_LOAD_FLOW.svg)
+
 ## Diagram (Mermaid)
 
 ```mermaid
 flowchart LR
   %% Order data load + consumption (legacy baseline)
 
-  subgraph SF[Salesforce]
+  subgraph "Salesforce"
     SF_OAuth["OAuth token (refresh_token)"]
     SF_SOQL["SOQL: eligible recipients\n(Contact/Account + flags + language + brand)"]
   end
 
-  subgraph ILOG[iLog Track & Trace API]
+  subgraph "iLog Track & Trace API"
     ILOG_JWT["JWT (HS256) per customer"]
     ILOG_API["Fetch orders/status"]
   end
 
-  subgraph DB[MySQL (legacy DB)]
+  subgraph "MySQL (legacy DB)"
     DAILY["Daily data tables\n(hoya_daily_data_*, seiko_daily_data_*)"]
   end
 
-  subgraph PHP[Legacy PHP on hoyavision-service]
+  subgraph "Legacy PHP on hoyavision-service"
     CRON["Daily scheduler / cron"]
     TNT["Import job: tnt.php"]
     RENDER["Renderer: tracking.php?cid=<AccountId>&l=<locale>"]
   end
 
-  subgraph PARDOT[Pardot (Account Engagement)]
+  subgraph "Pardot (Account Engagement)"
     ES["Engagement Studio / send logic"]
     EMAIL["Email template\n(static HTML + merge fields)"]
     LINK["Dynamic link field\nTrack_and_Trace_URL__c (synced from SFDC)"]
