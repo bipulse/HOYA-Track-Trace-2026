@@ -1,5 +1,7 @@
 # Hoya Track & Trace — Legacy Baseline (Pardot → SFMC Migration)
 
+> Legacy baseline archive of HOYA Track & Trace PHP (Pardot-era) for data import, HTML rendering, and email sending; reference for SFMC migration.
+
 This repository is primarily an **as-is archive / baseline** of the legacy PHP implementation.
 
 It is **not** the future SFMC solution. The SFMC flow will be designed and implemented separately, using this repo as a reference for requirements and behavior.
