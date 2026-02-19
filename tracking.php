@@ -204,7 +204,9 @@ if ($brand === 'seiko' && is_file($scriptpath . 'templates/templates_seikofr.php
 
     // In preview mode, remove any unreplaced {tokens} for a clean output.
     if ($preview) {
-        $mailbody = preg_replace('/\{[^\}]+\}/', '', (string)$mailbody);
+        // Only strip placeholder tokens like {order-ref} or {contact_email}.
+        // Do NOT strip generic braces, otherwise CSS blocks like `.container { ... }` get removed.
+        $mailbody = preg_replace('/\{[A-Za-z0-9_-]+\}/', '', (string)$mailbody);
     }
 
     echo $mailbody;
