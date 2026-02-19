@@ -4,13 +4,13 @@
 
 ?>
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{html-lang}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <base href="https://services.seikovision.com/assets/snippets/phpimport/templates/" />
-    <title>Seiko Track & Trace</title>
+    <title>{subject}</title>
     <style>
         @font-face {
             font-family: 'DrescherGrotesk BT DemiBold';
@@ -349,14 +349,7 @@
             <div class="block1">{customeraddress}
                
             </div>
-            <div class="block2">
-                Cher(e) client(e), cher(e) partenaire,<br><br>
-                Vous retrouverez ci-dessous votre rapport quotidien du suivi de vos commandes de verres Seiko. Les
-                informations mentionnées dans ce rapport sont indicatives. Pour toutes demandes d’informations
-                complémentaires, n’hésitez pas à contacter votre Service Clients Seiko ou votre Conseiller Stratégique
-                Verres.<br><br>
-                L’équipe de Seiko Optical France
-            </div>
+            <div class="block2">{seiko-intro}</div>
         </div>
         <!-- ... previous sections ... -->
 
@@ -366,9 +359,9 @@
                 <!-- First Group -->
                 <!-- Text block -->
                 <div class="block1" style="background-color: white;">
-                    <b>NOUVELLES COMMANDES</b>
+                    <b>{new-orders}</b>
 
-                    Retrouvez les commandes transmises aujourd'hui.
+                    {new-orders-text}
                 </div>
                 <!-- Table block -->
                 <div class="block2" style="background-color: white;">
@@ -376,11 +369,11 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th class="desktop">Référence de la commande</th>
-                                    <th class="desktop">Design</th>
-                                    <th class="mobile">Référence et design de la commande</th>
-                                    <th>Date de livraison</th>
-                                    <th>Date de commande</th>
+                                    <th class="desktop">{order-ref}</th>
+                                    <th class="desktop">{design}</th>
+                                    <th class="mobile">{order-ref} / {design}</th>
+                                    <th>{planned-date}</th>
+                                    <th>{order-date}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -403,9 +396,9 @@
                 <!-- First Group -->
                 <!-- Text block -->
                 <div class="block1" style="background-color: white;">
-                    <b>CHANGEMENT DE DÉLAIS</b>
+                    <b>{new-planned-delivery-dates}</b>
 
-                    Retrouvez la liste des commandes dont la date de livraison a été modifiée.
+                    {new-planned-delivery-dates-text}
                 </div>
                 <!-- Table block -->
                 <div class="block2" style="background-color: white;">
@@ -413,11 +406,11 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th class="desktop">Référence de la commande</th>
-                                    <th class="desktop">Design</th>
-                                    <th class="mobile">Référence et design de la commande</th>
-                                    <th>Date de livraison</th>
-                                    <th>Date de commande</th>
+                                    <th class="desktop">{order-ref}</th>
+                                    <th class="desktop">{design}</th>
+                                    <th class="mobile">{order-ref} / {design}</th>
+                                    <th>{planned-date}</th>
+                                    <th>{order-date}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -437,9 +430,9 @@
                 <!-- First Group -->
                 <!-- Text block -->
                 <div class="block1" style="background-color: white;">
-                    <b>LIVRAISONS SUR LES 3 PROCHAINS JOURS</b>
+                    <b>{deliveries-in-the-coming-3-days}</b>
 
-                    Visualisez vos prochaines livraisons et organisez ainsi votre charge de travail en atelier.
+                    {deliveries-in-the-coming-3-days-text}
                 </div>
                 <!-- Table block -->
                 <div class="block2" style="background-color: white;">
@@ -447,11 +440,11 @@
                         <table style="width:100%">
                             <thead>
                                 <tr>
-                                    <th class="desktop">Référence de la commande</th>
-                                    <th class="desktop">Design</th>
-                                    <th class="mobile">Référence et design de la commande</th>
-                                    <th>Date de livraison</th>
-                                    <th>Date de commande</th>
+                                    <th class="desktop">{order-ref}</th>
+                                    <th class="desktop">{design}</th>
+                                    <th class="mobile">{order-ref} / {design}</th>
+                                    <th>{planned-date}</th>
+                                    <th>{order-date}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -471,10 +464,9 @@
                 <!-- First Group -->
                 <!-- Text block -->
                 <div class="block1" style="background-color: white;">
-                    <b>COMMANDES
-                        EN COURS </b>
+                    <b>{all-open-orders}</b>
 
-                    Voici la liste des commandes Seiko validées et en cours de production.
+                    {all-open-orders-text}
                 </div>
                 <!-- Table block -->
                 <div class="block2" style="background-color: white; padding-bottom: 80px;">
@@ -482,11 +474,11 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th class="desktop">Référence de la commande</th>
-                                    <th class="desktop">Design</th>
-                                    <th class="mobile">Référence et design de la commande</th>
-                                    <th>Date de livraison</th>
-                                    <th>Date de commande</th>
+                                    <th class="desktop">{order-ref}</th>
+                                    <th class="desktop">{design}</th>
+                                    <th class="mobile">{order-ref} / {design}</th>
+                                    <th>{planned-date}</th>
+                                    <th>{order-date}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -503,7 +495,7 @@
 
         <div class="two-block-section intro services">
             <div class="block1">
-                <b>AUTRES SERVICES SEIKO</b>
+                <b>{other-services}</b>
 
             </div>
             <div class="block2 ">
@@ -513,9 +505,8 @@
             </div>
         </div>
         <div class="footer">
-            Seiko Optical France<br>
-            ZA PARIEST - Rue Willy Brandt<br>77184 EMERAINVILLE - France<br><br>
-            Téléphone : 0 810 915 320 <span class="pipe">|</span> Email : <a href="mailto:service-clients.france@seikovision.com">service-clients.france@seikovision.com</a>
+            {seiko-footer-address}<br><br>
+            {contact-tel-label} : {contact-tel} <span class="pipe">|</span> {contact-email-label} : <a href="mailto:{contact-email}">{contact-email}</a>
         </div>
 
 

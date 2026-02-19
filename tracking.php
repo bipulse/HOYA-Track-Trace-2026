@@ -2,6 +2,8 @@
 
 header('Content-Type: text/html; charset=UTF-8');
 
+require_once __DIR__ . '/assets/snippets/phpimport/i18n.php';
+
 $domain_name = $_SERVER['HTTP_HOST'] ?? '';
 
 $baseDir = __DIR__;
@@ -28,7 +30,12 @@ if ($locale !== '' && !preg_match('/^[A-Za-z]{2}-[A-Za-z]{2}$/', $locale)) {
     $locale = '';
 }
 
+$localeDb = tnt_normalize_locale_db($locale);
+
 $brand = isset($_GET['brand']) ? strtolower((string)$_GET['brand']) : '';
+
+// Legacy token used by some templates.
+$output = '';
 
 
 
@@ -49,51 +56,14 @@ if ($brand === 'seiko' || $domain_name === 'services.seikovision.com') {
 
 if ($preview) {
     $customernumber = $cid !== '' ? $cid : '001000000000000AAA';
-    $_lang = [
+    $effectiveLocaleDb = $localeDb !== '' ? $localeDb : 'nl-nl';
+    $_lang = tnt_lang_for_render($effectiveLocaleDb, [
         'subject' => 'Track & Trace – Preview',
-        'dear-customer-1' => 'Dear customer,',
-        'dear-customer-2' => 'this is a local preview of the precompiled HTML.',
-        'dear-customer-3' => 'Kind regards',
         'note' => 'Preview mode (no database).',
-        'new-planned-delivery-dates' => 'New planned delivery dates',
-        'new-planned-delivery-dates-text' => 'Orders with changed planned delivery dates.',
-        'deliveries-in-the-coming-3-days' => 'Deliveries in the coming 3 days',
-        'deliveries-in-the-coming-3-days-text' => 'Orders expected soon.',
-        'all-open-orders' => 'All open orders',
-        'all-open-orders-text' => 'Overview of open orders.',
-        'new-orders' => 'New orders',
-        'new-orders-text' => 'Newly created orders.',
-        'shipped-orders' => 'Shipped orders',
-        'shipped-orders-text' => 'Recently shipped orders.',
-        'order-ref' => 'Order reference',
-        'design' => 'Design',
-        'order-date' => 'Order date',
-        'planned-date' => 'Planned date',
-        'end-consumer' => 'End consumer',
-        'other-services' => 'Other services',
-        'badge1-img' => '',
-        'badge2-img' => '',
-        'badge3-img' => '',
-        'badge4-img' => '',
-        'badge1-link' => '#',
-        'badge2-link' => '#',
-        'badge3-link' => '#',
-        'badge4-link' => '#',
-        'contact-tel' => '+00 000 0000',
-        'contact-email' => 'support@example.com',
-        'opening' => 'Mon–Fri 09:00–17:00',
-        'company-address' => 'Example Address',
-        'terms-of-use' => 'Terms of use',
-        'terms-of-use-url' => '#',
-        'privacy-notice' => 'Privacy notice',
-        'privacy-notice-url' => '#',
-        'unsubscribe' => 'Unsubscribe',
-        'unsubscribe-url' => '/assets/snippets/phpimport/unsubscribe/unsubscribe.php?EmailAddress=',
-        'footer' => '',
-    ];
+    ]);
 
     $row = [
-        'l' => $locale !== '' ? $locale : 'nl-nl',
+        'l' => $effectiveLocaleDb,
         'customeremail' => 'test@example.com',
         'sfid' => $customernumber,
         'customernumber' => '12345',
@@ -103,8 +73,10 @@ if ($preview) {
         'customercity' => 'Example City',
     ];
 
+    $customerLabel = tnt_ensure_utf8((string)($_lang['customernumber'] ?? 'Customer'));
     $customeraddress = '<p>'
-        . 'Customer: ' . htmlspecialchars($customernumber, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '<br />'
+        . htmlspecialchars($customerLabel, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . ': '
+        . htmlspecialchars($customernumber, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '<br />'
         . htmlspecialchars($row['customername1'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '<br />'
         . htmlspecialchars($row['customeradress'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '<br />'
         . htmlspecialchars($row['customerzip'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . ' '
@@ -145,14 +117,16 @@ if ($preview) {
         exit;
     }
 
-    if ($locale !== '') {
-        $sql1 = " SELECT * FROM translation where l = '" . $locale . "'";
+    $effectiveLocaleDb = $localeDb !== '' ? $localeDb : tnt_normalize_locale_db((string)($row['l'] ?? ''));
+    if ($effectiveLocaleDb !== '') {
+        $sql1 = " SELECT * FROM translation where l = '" . $effectiveLocaleDb . "'";
     } else {
         $sql1 = " SELECT * FROM translation where l = '" . $row['l'] . "'";
     }
 
     $result1 = mysqli_query($conn, $sql1);
-    $_lang = mysqli_fetch_assoc($result1);
+    $dbLang = mysqli_fetch_assoc($result1);
+    $_lang = tnt_lang_for_render($effectiveLocaleDb !== '' ? $effectiveLocaleDb : (string)($row['l'] ?? ''), is_array($dbLang) ? $dbLang : []);
     $customeraddress = generateAddressBlock($row, $_lang);
 
     $customernumber = $row["sfid"];
@@ -187,23 +161,12 @@ if ($brand === 'seiko' && is_file($scriptpath . 'templates/templates_seikofr.php
 
     
 
-    $searchReplace = array(
+    $searchReplace = [
         '{customernumber}' => $customernumber,
         '{content}' => $output,
-        '{subject}' => utf8_encode($_lang['subject']) ,
-        '{dear-customer}' => "<p><strong>" . utf8_encode($_lang['dear-customer-1']) . "</strong></p><p>" . utf8_encode($_lang['dear-customer-2']) . "</p><p><strong>" . utf8_encode($_lang['dear-customer-3']) . "</strong></p>",
         '{customeraddress}' => $customeraddress,
-        '{note}' => utf8_encode($_lang['note']) ,
-        '{new-planned-delivery-dates}' => utf8_encode($_lang['new-planned-delivery-dates']) ,
-        '{new-planned-delivery-dates-text}' => utf8_encode($_lang['new-planned-delivery-dates-text']) ,
-        '{deliveries-in-the-coming-3-days}' => utf8_encode($_lang['deliveries-in-the-coming-3-days']) ,
-        '{deliveries-in-the-coming-3-days-text}' => utf8_encode($_lang['deliveries-in-the-coming-3-days-text']) ,
-        '{all-open-orders}' => utf8_encode($_lang['all-open-orders']) ,
-        '{all-open-orders-text}' => utf8_encode($_lang['all-open-orders-text']) ,
-        '{new-orders}' => utf8_encode($_lang['new-orders']) ,
-        '{new-orders-text}' => utf8_encode($_lang['new-orders-text']) ,
-        '{shipped-orders}' => utf8_encode($_lang['shipped-orders']) ,
-        '{shipped-orders-text}' => utf8_encode($_lang['shipped-orders-text']) ,
+
+        // Blocks / tables
         '{block0}' => $blocks[3][0],
         '{block1}' => $blocks[0][0],
         '{block2}' => $blocks[1][0],
@@ -214,34 +177,29 @@ if ($brand === 'seiko' && is_file($scriptpath . 'templates/templates_seikofr.php
         '{block2mobile}' => $blocks[1][1],
         '{block3mobile}' => $blocks[2][1],
         '{block4mobile}' => $blocks[4][1],
-        '{order-ref}' => utf8_encode($_lang['order-ref']) ,
-        '{design}' => utf8_encode($_lang['design']) ,
-        '{order-date}' => utf8_encode($_lang['order-date']) ,
-        '{planned-date}' => utf8_encode($_lang['planned-date']) ,
-        '{end-consumer}' => utf8_encode($_lang['end-consumer']) ,
-        '{other-services}' => utf8_encode($_lang['other-services']) ,
-        '{badge1-img}' => utf8_encode($_lang['badge1-img']) ,
-        '{badge2-img}' => utf8_encode($_lang['badge2-img']) ,
-        '{badge3-img}' => utf8_encode($_lang['badge3-img']) ,
-        '{badge4-img}' => utf8_encode($_lang['badge4-img']) ,
-        '{badge1-link}' => utf8_encode($_lang['badge1-link']) ,
-        '{badge2-link}' => utf8_encode($_lang['badge2-link']) ,
-        '{badge3-link}' => utf8_encode($_lang['badge3-link']) ,
-        '{badge4-link}' => utf8_encode($_lang['badge4-link']) ,
-        '{contact-tel}' => utf8_encode($_lang['contact-tel']) ,
-        '{contact-email}' => utf8_encode($_lang['contact-email']) ,
-        '{opening}' => utf8_encode($_lang['opening']) ,
-        '{company-address}' => utf8_encode($_lang['company-address']) ,
-        '{terms-of-use}' => utf8_encode($_lang['terms-of-use']) ,
-        '{terms-of-use-url}' => utf8_encode($_lang['terms-of-use-url']) ,
-        '{privacy-notice}' => utf8_encode($_lang['privacy-notice']) ,
-        '{privacy-notice-url}' => utf8_encode($_lang['privacy-notice-url']) ,
-        '{unsubscribe}' => utf8_encode($_lang['unsubscribe']) ,
-        '{unsubscribe-url}' => utf8_encode($_lang['unsubscribe-url']) ,
-        '{customeremail}' => $row['customeremail'],
-        '{maildate}' => time() ,
-        '{footer}' => utf8_encode($_lang['footer']) ,
-    );
+
+        '{customeremail}' => $row['customeremail'] ?? '',
+        '{maildate}' => time(),
+        '{html-lang}' => tnt_normalize_locale_html($effectiveLocaleDb ?? ($row['l'] ?? $localeDb ?? '')),
+    ];
+
+    $searchReplace['{dear-customer}'] = "<p><strong>"
+        . tnt_ensure_utf8((string)($_lang['dear-customer-1'] ?? ''))
+        . "</strong></p><p>"
+        . tnt_ensure_utf8((string)($_lang['dear-customer-2'] ?? ''))
+        . "</p><p><strong>"
+        . tnt_ensure_utf8((string)($_lang['dear-customer-3'] ?? ''))
+        . "</strong></p>";
+
+    // Make all translation keys usable as {tokens} in templates.
+    foreach ($_lang as $key => $value) {
+        if (!is_string($key) || $key === '') continue;
+        if (!is_scalar($value) && $value !== null) continue;
+
+        $token = '{' . $key . '}';
+        if (array_key_exists($token, $searchReplace)) continue;
+        $searchReplace[$token] = tnt_ensure_utf8($value === null ? '' : (string)$value);
+    }
     $mailbody = (str_replace(array_keys($searchReplace) , array_values($searchReplace) , $template));
 
     // In preview mode, remove any unreplaced {tokens} for a clean output.

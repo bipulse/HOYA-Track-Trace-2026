@@ -19,6 +19,7 @@ define('DB_USER', tnt_env('TNT_DB_USER', ''));
 define('DB_PASS', tnt_env('TNT_DB_PASS', ''));
 define('DB_NAME', tnt_env('TNT_DB_NAME', ''));
 
+require_once __DIR__ . '/i18n.php';
 require "functions.php";
 
 if (DB_USER === '' || DB_NAME === '') {

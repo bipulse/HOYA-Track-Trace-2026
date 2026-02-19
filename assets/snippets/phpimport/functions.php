@@ -61,7 +61,8 @@ function rcopy($src, $dst) {
 
 function generateAddressBlock($row,$_lang){
 
-  return $customeraddress = "<p>".utf8_encode($_lang['customernumber']).": ".$row["customernumber"]."<br />".$row["customername1"]."<br />".$row["customeradress"]."<br />".$row["customerzip"]." ".$row["customercity"]."</p>";
+  $label = isset($_lang['customernumber']) ? tnt_ensure_utf8((string)$_lang['customernumber']) : 'Customer';
+  return $customeraddress = "<p>".$label.": ".$row["customernumber"]."<br />".$row["customername1"]."<br />".$row["customeradress"]."<br />".$row["customerzip"]." ".$row["customercity"]."</p>";
 
 }
 
