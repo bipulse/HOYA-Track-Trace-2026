@@ -64,6 +64,35 @@ return [
         'seiko-footer-address' => '',
     ],
 
+    // English (United Kingdom)
+    'en-gb' => [
+        'subject' => 'Track & Trace',
+        'sender' => 'Track & Trace',
+        'customernumber' => 'Customer',
+
+        'dear-customer-1' => 'Dear customer,',
+        'dear-customer-2' => 'Please find below your Track & Trace overview.',
+        'dear-customer-3' => 'Kind regards',
+
+        'new-planned-delivery-dates' => 'Changed delivery dates',
+        'new-planned-delivery-dates-text' => 'Orders with changed planned delivery dates.',
+        'deliveries-in-the-coming-3-days' => 'Deliveries in the coming 3 days',
+        'deliveries-in-the-coming-3-days-text' => 'Orders expected soon.',
+        'all-open-orders' => 'All open orders',
+        'all-open-orders-text' => 'Overview of open orders.',
+        'new-orders' => 'New orders',
+        'new-orders-text' => 'Newly created orders.',
+        'shipped-orders' => 'Shipped orders',
+        'shipped-orders-text' => 'Recently shipped orders.',
+
+        'order-ref' => 'Order reference',
+        'design' => 'Design',
+        'order-date' => 'Order date',
+        'planned-date' => 'Planned date',
+        'end-consumer' => 'End consumer',
+        'other-services' => 'Other services',
+    ],
+
     // French (Seiko France + HOYA FR)
     'fr-fr' => [
         'subject' => 'Track & Trace',
@@ -98,8 +127,101 @@ return [
         'seiko-footer-address' => 'Seiko Optical France<br>ZA PARIEST - Rue Willy Brandt<br>77184 EMERAINVILLE - France',
     ],
 
+    // German (Germany)
+    'de-de' => [
+        'subject' => 'Track & Trace',
+        'sender' => 'Track & Trace',
+        'customernumber' => 'Kunde',
+
+        'dear-customer-1' => 'Sehr geehrte Kundin, sehr geehrter Kunde,',
+        'dear-customer-2' => 'untenstehend finden Sie Ihre Track & Trace Übersicht.',
+        'dear-customer-3' => 'Mit freundlichen Grüßen',
+
+        'new-planned-delivery-dates' => 'Geänderte Liefertermine',
+        'new-planned-delivery-dates-text' => 'Bestellungen mit geänderten geplanten Lieferterminen.',
+        'deliveries-in-the-coming-3-days' => 'Lieferungen in den nächsten 3 Tagen',
+        'deliveries-in-the-coming-3-days-text' => 'Bestellungen, die bald erwartet werden.',
+        'all-open-orders' => 'Alle offenen Bestellungen',
+        'all-open-orders-text' => 'Übersicht der offenen Bestellungen.',
+        'new-orders' => 'Neue Bestellungen',
+        'new-orders-text' => 'Neu erstellte Bestellungen.',
+        'shipped-orders' => 'Versandte Bestellungen',
+        'shipped-orders-text' => 'Kürzlich versandte Bestellungen.',
+
+        'order-ref' => 'Bestellreferenz',
+        'design' => 'Design',
+        'order-date' => 'Bestelldatum',
+        'planned-date' => 'Geplantes Datum',
+        'end-consumer' => 'Endkunde',
+        'other-services' => 'Weitere Services',
+    ],
+
+    // Spanish (Spain)
+    'es-es' => [
+        'subject' => 'Track & Trace',
+        'sender' => 'Track & Trace',
+        'customernumber' => 'Cliente',
+
+        'dear-customer-1' => 'Estimado/a cliente,',
+        'dear-customer-2' => 'a continuación encontrará su resumen de Track & Trace.',
+        'dear-customer-3' => 'Saludos cordiales',
+
+        'new-planned-delivery-dates' => 'Fechas de entrega modificadas',
+        'new-planned-delivery-dates-text' => 'Pedidos con fechas de entrega planificadas modificadas.',
+        'deliveries-in-the-coming-3-days' => 'Entregas en los próximos 3 días',
+        'deliveries-in-the-coming-3-days-text' => 'Pedidos previstos próximamente.',
+        'all-open-orders' => 'Todos los pedidos abiertos',
+        'all-open-orders-text' => 'Resumen de pedidos abiertos.',
+        'new-orders' => 'Nuevos pedidos',
+        'new-orders-text' => 'Pedidos creados recientemente.',
+        'shipped-orders' => 'Pedidos enviados',
+        'shipped-orders-text' => 'Pedidos enviados recientemente.',
+
+        'order-ref' => 'Referencia del pedido',
+        'design' => 'Diseño',
+        'order-date' => 'Fecha del pedido',
+        'planned-date' => 'Fecha prevista',
+        'end-consumer' => 'Consumidor final',
+        'other-services' => 'Otros servicios',
+    ],
+
+    // Italian (Italy)
+    'it-it' => [
+        'subject' => 'Track & Trace',
+        'sender' => 'Track & Trace',
+        'customernumber' => 'Cliente',
+
+        'dear-customer-1' => 'Gentile cliente,',
+        'dear-customer-2' => 'di seguito trova il suo riepilogo Track & Trace.',
+        'dear-customer-3' => 'Cordiali saluti',
+
+        'new-planned-delivery-dates' => 'Date di consegna modificate',
+        'new-planned-delivery-dates-text' => 'Ordini con date di consegna pianificate modificate.',
+        'deliveries-in-the-coming-3-days' => 'Consegne nei prossimi 3 giorni',
+        'deliveries-in-the-coming-3-days-text' => 'Ordini previsti a breve.',
+        'all-open-orders' => 'Tutti gli ordini aperti',
+        'all-open-orders-text' => 'Panoramica degli ordini aperti.',
+        'new-orders' => 'Nuovi ordini',
+        'new-orders-text' => 'Ordini creati di recente.',
+        'shipped-orders' => 'Ordini spediti',
+        'shipped-orders-text' => 'Ordini spediti di recente.',
+
+        'order-ref' => 'Riferimento ordine',
+        'design' => 'Design',
+        'order-date' => 'Data ordine',
+        'planned-date' => 'Data pianificata',
+        'end-consumer' => 'Consumatore finale',
+        'other-services' => 'Altri servizi',
+    ],
+
     // Dutch (placeholder – falls back to en-us for most keys)
     'nl-nl' => [
+        'subject' => 'Track & Trace',
+        'customernumber' => 'Klant',
+    ],
+
+    // Dutch (Belgium) – requested as be-NL (legacy)
+    'be-nl' => [
         'subject' => 'Track & Trace',
         'customernumber' => 'Klant',
     ],
