@@ -91,7 +91,7 @@ function generateDataTable($data){
         if($row["orderpatient"]) $block0 .= ($row["orderpatient"]);
         $block0 .='</td>';
         $block0 .='<td class="desktop">'.($row["orderlensname"]).'</td>';
-        $block0 .='<td class="mobile">';
+        $block0 .='<td class="mobile" style="display:none">';
         $block0 .=    $row["ordernr"];
         if($row["orderpatient"]) $block0 .= ' - '.($row["orderpatient"]).'<br>';
         $block0 .= ($row["orderlensname"]);
@@ -118,7 +118,7 @@ function generateDataTable($data){
       if($row["orderpatient"]) $block1 .= ($row["orderpatient"]);
       $block1 .='</td>';
       $block1 .='<td class="desktop">'.($row["orderlensname"]).'</td>';
-      $block1 .='<td class="mobile">';
+      $block1 .='<td class="mobile" style="display:none">';
       $block1 .=    $row["ordernr"];
       if($row["orderpatient"]) $block1 .= ' - '.($row["orderpatient"]).'<br>';
       $block1 .= ($row["orderlensname"]);
@@ -139,7 +139,7 @@ function generateDataTable($data){
       if($row["orderpatient"]) $block2 .= ($row["orderpatient"]);
       $block2 .='</td>';
       $block2 .='<td class="desktop">'.($row["orderlensname"]).'</td>';
-      $block2 .='<td class="mobile">';
+      $block2 .='<td class="mobile" style="display:none">';
       $block2 .=    $row["ordernr"];
       if($row["orderpatient"]) $block2 .= ' - '.($row["orderpatient"]).'<br>';
       $block2 .= ($row["orderlensname"]);
@@ -158,7 +158,7 @@ function generateDataTable($data){
         if($row["orderpatient"]) $block3 .= ($row["orderpatient"]);
         $block3 .='</td>';
         $block3 .='<td class="desktop">'.($row["orderlensname"]).'</td>';
-        $block3 .='<td class="mobile">';
+        $block3 .='<td class="mobile" style="display:none">';
         $block3 .=    $row["ordernr"];
         if($row["orderpatient"]) $block3 .= ' - '.($row["orderpatient"]).'<br>';
         $block3 .='</td>';
@@ -180,7 +180,7 @@ function generateDataTable($data){
         if($row["orderpatient"]) $block4 .= ($row["orderpatient"]);
         $block4 .='</td>';
         $block4 .='<td class="desktop">'.($row["orderlensname"]).'</td>';
-        $block4 .='<td class="mobile">';
+        $block4 .='<td class="mobile" style="display:none">';
         $block4 .=    $row["ordernr"];
         if($row["orderpatient"]) $block4 .= ' - '.($row["orderpatient"]).'<br>';
         $block4 .= strtoupper($row["orderlensname"]);

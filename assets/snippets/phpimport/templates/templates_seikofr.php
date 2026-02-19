@@ -371,7 +371,7 @@
                                 <tr>
                                     <th class="desktop">{order-ref}</th>
                                     <th class="desktop">{design}</th>
-                                    <th class="mobile">{order-ref} / {design}</th>
+                                    <th class="mobile" style="display:none">{order-ref} / {design}</th>
                                     <th>{planned-date}</th>
                                     <th>{order-date}</th>
                                 </tr>
@@ -408,7 +408,7 @@
                                 <tr>
                                     <th class="desktop">{order-ref}</th>
                                     <th class="desktop">{design}</th>
-                                    <th class="mobile">{order-ref} / {design}</th>
+                                    <th class="mobile" style="display:none">{order-ref} / {design}</th>
                                     <th>{planned-date}</th>
                                     <th>{order-date}</th>
                                 </tr>
@@ -442,7 +442,7 @@
                                 <tr>
                                     <th class="desktop">{order-ref}</th>
                                     <th class="desktop">{design}</th>
-                                    <th class="mobile">{order-ref} / {design}</th>
+                                    <th class="mobile" style="display:none">{order-ref} / {design}</th>
                                     <th>{planned-date}</th>
                                     <th>{order-date}</th>
                                 </tr>
@@ -476,7 +476,7 @@
                                 <tr>
                                     <th class="desktop">{order-ref}</th>
                                     <th class="desktop">{design}</th>
-                                    <th class="mobile">{order-ref} / {design}</th>
+                                    <th class="mobile" style="display:none">{order-ref} / {design}</th>
                                     <th>{planned-date}</th>
                                     <th>{order-date}</th>
                                 </tr>
