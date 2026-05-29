@@ -106,6 +106,26 @@ $secret_key = $dryrun ? 'DRYRUN' : env_req('ILOG_JWT_SECRET');
 
 // $query = urlencode("Select Id,Contact__r.Account.IsDeleted,Contact__r.Account.Name,Contact__r.Account.Id,Contact__r.Account.Hoya_Account_ID__c,Contact__r.Account.Brand__c,Contact__r.Account.Shop_Country__c,Contact__r.Account.Account_Number_ILog__c,Contact__r.Account.Shop_City__c,Contact__r.Account.Shop_Postal_Code__c, Contact__r.Account.Shop_State__c,Contact__r.Account.Shop_Street__c,Contact__r.Language_Pick__c  from Subscription__c Where Active_Subscription__c = true AND Contact__r.Account.Account_Number_ILog__c != null AND Contact__r.Account.Brand__c = 'HOYA' AND  Contact__r.Account.Shop_Country__c = 'NL'");
 $query = urlencode("Select Id,Account.IsDeleted,Account.Name,AccountId, Account.Hoya_Account_ID__c,Account.Brand__c,Account.Shop_Country__c,Account.Account_Number_ILog__c,Account.Shop_City__c,Account.Shop_Postal_Code__c, Account.Shop_State__c,Account.Shop_Street__c,Language_Pick__c from Contact Where Active_Subscription__c = true AND Account.Account_Number_ILog__c != null AND Account.Brand__c = 'HOYA' AND Account.Shop_Country__c = 'NL' AND Subscription_Type__c ='Track and Trace' AND RecordType.developerName ='Subscription'");
+
+$query = urlencode("Select Id,
+    Account.IsDeleted,
+    Account.Name,
+    AccountId,
+    Account.Hoya_Account_ID__c,
+    Account.Brand__c,
+    Account.Shop_Country__c,
+    Account.Account_Number_ILog__c,
+    Account.Shop_City__c,
+    Account.Shop_Postal_Code__c,
+    Account.Shop_State__c,
+    Account.Shop_Street__c,
+    Language_Pick__c,
+    Track_and_Trace_URL__c
+    From Contact
+    Where Track_Trace_Subscription__c = true
+    AND Account.Account_Number_ILog__c != null
+    AND Account.Brand__c = 'HOYA'
+    AND Account.Shop_Country__c = 'NL'");
 $url = 'https://hoya.my.salesforce.com/services/data/v50.0/query/?q='.$query;
 
 //$accessToken = "00Db0000000JkWX!AQoAQOErrPpik.y29YyvtSvLsZ0zUcbucoUognGS.N.JLvcZfmhdMXi87EXnRzm1BhlgXXxQxOtVFMrjvcz52wCC1f5bl37v";
@@ -152,27 +172,40 @@ if ($dryrun) {
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Page Title</title>
-	  <style>
-	  body{
-	  	
-		  font-family: sans-serif
-	  }
-	  </style>
+    <title>HOYA NL — Order Overview</title>
+    <style>
+      body { font-family: Arial, sans-serif; font-size: 13px; color: #222; margin: 20px; }
+      h1 { font-size: 18px; margin-bottom: 4px; }
+      .meta { color: #666; font-size: 12px; margin-bottom: 24px; }
+      .store { margin-bottom: 28px; page-break-inside: avoid; }
+      .store-header { background: #1a3a5c; color: #fff; padding: 8px 12px; border-radius: 4px 4px 0 0; }
+      .store-header .name { font-weight: bold; font-size: 14px; }
+      .store-header .ids { font-size: 11px; opacity: .8; margin-top: 2px; }
+      .store-address { background: #f0f4f8; padding: 6px 12px; font-size: 12px; color: #444; border: 1px solid #d0dae6; border-top: none; }
+      .no-orders { padding: 8px 12px; font-style: italic; color: #999; border: 1px solid #d0dae6; border-top: none; border-radius: 0 0 4px 4px; }
+      table { width: 100%; border-collapse: collapse; border: 1px solid #d0dae6; border-top: none; border-radius: 0 0 4px 4px; }
+      th { background: #e8eef5; text-align: left; padding: 5px 10px; font-size: 11px; color: #555; border-bottom: 1px solid #d0dae6; }
+      td { padding: 4px 10px; border-bottom: 1px solid #eef1f5; }
+      tr:last-child td { border-bottom: none; }
+      .delay-ok   { color: #2e7d32; font-weight: bold; }
+      .delay-late { color: #c62828; font-weight: bold; }
+      .delay-warn { color: #e65100; font-weight: bold; }
+      @media print { body { margin: 10px; } .store { page-break-inside: avoid; } }
+    </style>
   </head>
   <body>
-	  
+    <h1>HOYA Netherlands — Order Overview</h1>
+    <div class="meta">Generated: <?php echo date('Y-m-d H:i'); ?> &nbsp;|&nbsp; Period: today</div>
+
 	  <?php
 
 $sqlArray = [];
 $customername2 = $customername2 ?? '';
 $customercountry = $customercountry ?? '';
 $customeremail = $customeremail ?? '';
-	  
-	  
+
 foreach($stores as $store){
 
-	//print_r($store);
 	$ilogId =  $store['Account']['Account_Number_ILog__c'];
 	$countrycode = strtolower($store['Account']['Shop_Country__c']);
 	$header = [
@@ -234,32 +267,45 @@ foreach($stores as $store){
 			$result = json_decode($response,true);
 		}
 	}
-	//print_r($result);
-	
-	
-	echo "<br/><b>Client-No.: ".$store['Account']['Hoya_Account_ID__c']."</b><br>" ;
-	echo $store['AccountId']."<br>" ;
-	echo $store['Account']['Name']."<br>" ;
-	echo $store['Account']['Shop_Street__c']."<br>" ;
-	echo $store['Account']['Shop_Postal_Code__c']." ".$store['Account']['Shop_City__c']."<br><br>" ;
-	foreach(($result['hydra:member'] ?? []) as $order){
-		
-	$orderDate = $order["orderDate"];
-	$deliveryDate = $order["deliveryDate"];
-	$orderNumber = 	$order["orderNumber"];
-	$tt_station_id =$order["stationId"];
-	$hoyailog_station_code = $order["stationLogistics"];
-	$orderDelay =  ($order["delay"] > 0) ? "Y" : "N";
-	$orderLensName = ($order['lensLeft'] = $order['lensRight']) ? $order['lensLeft'] : $order['lensLeft']." / ".$order['lensRight'];
-	$ordconf = ($order['stationId'] != 14 || $order['stationId'] != 15) ? "Y" : "N";
-	
-		
-	$sqlArray[] = "INSERT INTO hoya_daily_data_".$countrycode." (`customernumber`,`sfid`, `customername1`, `customername2`, `customeradress`, `customerzip`, `customercity`, `customercountry`, `l`, `customeremail`, `branchoffice`, `customergroup`, `ordconf`, `send_fax_em`, `orderdate`, `orderpatient`, `orderreference`, `orderplanneddate`, `orderupdateddate`, `orderstatut`, `orderlenstype`, `ordercoating`, `orderlab`, `orderlensname`, `ordernr`,`tt_station_id`,`hoyailog_station_code`) VALUES ('".addslashes($store['Account']['Hoya_Account_ID__c'])."','".addslashes($store['AccountId'])."', '".addslashes($store['Account']['Name'])."', '".addslashes($customername2)."', '".addslashes($store['Account']['Shop_Street__c'])."', '".addslashes($store['Account']['Shop_Postal_Code__c'])."', '".addslashes($store['Account']['Shop_City__c'])."', '".addslashes($customercountry)."', 'nl-nl', '".addslashes($customeremail)."', '', '', '".addslashes($ordconf)."', '', '".addslashes($orderDate)."', '".addslashes($order["reference1"])."', '".addslashes($order["reference2"])."', '".addslashes($deliveryDate)."', '".addslashes($orderDelay)."', '', '', '', '', '".addslashes($orderLensName)."', '".addslashes($orderNumber)."', '".addslashes($tt_station_id)."', '".addslashes($hoyailog_station_code)."');\n";
-	$sqlArray[] = "INSERT INTO my_log (`log_id`,`message`,`message_type`,`log_date`,`customer`) VALUES (NULL,'Imported Order: ".$order['orderNumber']."',1,'".date("Y-m-d H:i:s",time())."','".$store['Account']['Hoya_Account_ID__c']."');";
-		//write_mysql_log("Imported Order: ".$order["orderNumber"],'1',NULL, $conn);
-		echo $order["orderNumber"]." / ".$order["orderDate"]." / ".$order["deliveryDate"]." (Delay: ".$order["delay"].")"."<br>";
+	$name    = htmlspecialchars($store['Account']['Name'] ?? '');
+	$street  = htmlspecialchars($store['Account']['Shop_Street__c'] ?? '');
+	$zip     = htmlspecialchars($store['Account']['Shop_Postal_Code__c'] ?? '');
+	$city    = htmlspecialchars($store['Account']['Shop_City__c'] ?? '');
+	$clientNo = htmlspecialchars($store['Account']['Hoya_Account_ID__c']);
+	$ilogNo   = htmlspecialchars($store['Account']['Account_Number_ILog__c']);
+	$orders   = $result['hydra:member'] ?? [];
+
+	echo '<div class="store">';
+	echo '<div class="store-header"><div class="name">'.($name ?: $clientNo).'</div>';
+	echo '<div class="ids">Client-No.: '.$clientNo.' &nbsp;|&nbsp; iLog-No.: '.$ilogNo.'</div></div>';
+	if ($street || $city) {
+		echo '<div class="store-address">'.$street.($street && ($zip||$city) ? ', ' : '').$zip.' '.$city.'</div>';
 	}
-	echo "<br>";
+
+	if (empty($orders)) {
+		echo '<div class="no-orders">No orders today.</div></div>';
+	} else {
+		echo '<table><tr><th>Order No.</th><th>Order Date</th><th>Delivery Date</th><th>Delay</th></tr>';
+		foreach($orders as $order){
+			$orderDate             = $order["orderDate"];
+			$deliveryDate          = $order["deliveryDate"];
+			$orderNumber           = $order["orderNumber"];
+			$tt_station_id         = $order["stationId"];
+			$hoyailog_station_code = $order["stationLogistics"];
+			$orderDelay            = ($order["delay"] > 0) ? "Y" : "N";
+			$orderLensName         = ($order['lensLeft'] == $order['lensRight']) ? $order['lensLeft'] : $order['lensLeft']." / ".$order['lensRight'];
+			$ordconf               = ($order['stationId'] != 14 && $order['stationId'] != 15) ? "Y" : "N";
+			$delay = (int)$order["delay"];
+			$delayClass = $delay < 0 ? 'delay-late' : ($delay > 0 ? 'delay-warn' : 'delay-ok');
+			$delayLabel = $delay === 0 ? '✓' : ($delay > 0 ? '+'.$delay.'d' : $delay.'d');
+
+			$sqlArray[] = "INSERT INTO hoya_daily_data_".$countrycode." (`customernumber`,`sfid`, `customername1`, `customername2`, `customeradress`, `customerzip`, `customercity`, `customercountry`, `l`, `customeremail`, `branchoffice`, `customergroup`, `ordconf`, `send_fax_em`, `orderdate`, `orderpatient`, `orderreference`, `orderplanneddate`, `orderupdateddate`, `orderstatut`, `orderlenstype`, `ordercoating`, `orderlab`, `orderlensname`, `ordernr`,`tt_station_id`,`hoyailog_station_code`) VALUES ('".addslashes($store['Account']['Hoya_Account_ID__c'])."','".addslashes($store['AccountId'])."', '".addslashes($store['Account']['Name'])."', '".addslashes($customername2)."', '".addslashes($store['Account']['Shop_Street__c'])."', '".addslashes($store['Account']['Shop_Postal_Code__c'])."', '".addslashes($store['Account']['Shop_City__c'])."', '".addslashes($customercountry)."', 'nl-nl', '".addslashes($customeremail)."', '', '', '".addslashes($ordconf)."', '', '".addslashes($orderDate)."', '".addslashes($order["reference1"])."', '".addslashes($order["reference2"])."', '".addslashes($deliveryDate)."', '".addslashes($orderDelay)."', '', '', '', '', '".addslashes($orderLensName)."', '".addslashes($orderNumber)."', '".addslashes($tt_station_id)."', '".addslashes($hoyailog_station_code)."');\n";
+			$sqlArray[] = "INSERT INTO my_log (`log_id`,`message`,`message_type`,`log_date`,`customer`) VALUES (NULL,'Imported Order: ".$order['orderNumber']."',1,'".date("Y-m-d H:i:s",time())."','".$store['Account']['Hoya_Account_ID__c']."');";
+
+			echo '<tr><td>'.htmlspecialchars($orderNumber).'</td><td>'.htmlspecialchars($orderDate).'</td><td>'.htmlspecialchars($deliveryDate).'</td><td class="'.$delayClass.'">'.$delayLabel.'</td></tr>';
+		}
+		echo '</table></div>';
+	}
 
 }
 
