@@ -35,8 +35,6 @@ curl_close($curl);
 
 $response_data = json_decode($response, true);
 $accessToken = $response_data['access_token'];
-echo 'SF_CLIENT_ID defined: ' . (defined('SF_CLIENT_ID') ? 'YES ('.substr(SF_CLIENT_ID,0,10).'...)' : 'NO') . '<br>';
-echo '<pre>OAuth: ' . htmlspecialchars(json_encode($response_data, JSON_PRETTY_PRINT)) . '</pre>';
 
 
 
