@@ -17,6 +17,9 @@ function env_or(string $key, string $default): string {
 function env_req(string $key): string {
 	$value = getenv($key);
 	if ($value === false || $value === '') {
+		$value = defined($key) ? constant($key) : '';
+	}
+	if ($value === '') {
 		echo "<br/>Missing required environment variable: " . htmlspecialchars($key, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 		exit;
 	}
@@ -204,7 +207,7 @@ foreach($stores as $store){
 	} else {
 		$curl = curl_init();
 
-		echo $auth_token = $jwt;
+		$auth_token = $jwt;
 
 		curl_setopt_array($curl, array(
 		  CURLOPT_URL => "https://track-and-trace.hoyailog.com/api/orders?itemsPerPage=50&deliveryDate[after]=".date("Y-m-d"),
@@ -251,7 +254,7 @@ foreach($stores as $store){
 	$ordconf = ($order['stationId'] != 14 || $order['stationId'] != 15) ? "Y" : "N";
 	
 		
-	echo $sqlArray[] = "INSERT INTO hoya_daily_data_".$countrycode." (`customernumber`,`sfid`, `customername1`, `customername2`, `customeradress`, `customerzip`, `customercity`, `customercountry`, `l`, `customeremail`, `branchoffice`, `customergroup`, `ordconf`, `send_fax_em`, `orderdate`, `orderpatient`, `orderreference`, `orderplanneddate`, `orderupdateddate`, `orderstatut`, `orderlenstype`, `ordercoating`, `orderlab`, `orderlensname`, `ordernr`,`tt_station_id`,`hoyailog_station_code`) VALUES ('".addslashes($store['Account']['Hoya_Account_ID__c'])."','".addslashes($store['AccountId'])."', '".addslashes($store['Account']['Name'])."', '".addslashes($customername2)."', '".addslashes($store['Account']['Shop_Street__c'])."', '".addslashes($store['Account']['Shop_Postal_Code__c'])."', '".addslashes($store['Account']['Shop_City__c'])."', '".addslashes($customercountry)."', 'nl-nl', '".addslashes($customeremail)."', '', '', '".addslashes($ordconf)."', '', '".addslashes($orderDate)."', '".addslashes($order["reference1"])."', '".addslashes($order["reference2"])."', '".addslashes($deliveryDate)."', '".addslashes($orderDelay)."', '', '', '', '', '".addslashes($orderLensName)."', '".addslashes($orderNumber)."', '".addslashes($tt_station_id)."', '".addslashes($hoyailog_station_code)."');\n";
+	$sqlArray[] = "INSERT INTO hoya_daily_data_".$countrycode." (`customernumber`,`sfid`, `customername1`, `customername2`, `customeradress`, `customerzip`, `customercity`, `customercountry`, `l`, `customeremail`, `branchoffice`, `customergroup`, `ordconf`, `send_fax_em`, `orderdate`, `orderpatient`, `orderreference`, `orderplanneddate`, `orderupdateddate`, `orderstatut`, `orderlenstype`, `ordercoating`, `orderlab`, `orderlensname`, `ordernr`,`tt_station_id`,`hoyailog_station_code`) VALUES ('".addslashes($store['Account']['Hoya_Account_ID__c'])."','".addslashes($store['AccountId'])."', '".addslashes($store['Account']['Name'])."', '".addslashes($customername2)."', '".addslashes($store['Account']['Shop_Street__c'])."', '".addslashes($store['Account']['Shop_Postal_Code__c'])."', '".addslashes($store['Account']['Shop_City__c'])."', '".addslashes($customercountry)."', 'nl-nl', '".addslashes($customeremail)."', '', '', '".addslashes($ordconf)."', '', '".addslashes($orderDate)."', '".addslashes($order["reference1"])."', '".addslashes($order["reference2"])."', '".addslashes($deliveryDate)."', '".addslashes($orderDelay)."', '', '', '', '', '".addslashes($orderLensName)."', '".addslashes($orderNumber)."', '".addslashes($tt_station_id)."', '".addslashes($hoyailog_station_code)."');\n";
 	$sqlArray[] = "INSERT INTO my_log (`log_id`,`message`,`message_type`,`log_date`,`customer`) VALUES (NULL,'Imported Order: ".$order['orderNumber']."',1,'".date("Y-m-d H:i:s",time())."','".$store['Account']['Hoya_Account_ID__c']."');";
 		//write_mysql_log("Imported Order: ".$order["orderNumber"],'1',NULL, $conn);
 		echo $order["orderNumber"]." / ".$order["orderDate"]." / ".$order["deliveryDate"]." (Delay: ".$order["delay"].")"."<br>";
