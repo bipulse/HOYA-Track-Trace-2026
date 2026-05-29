@@ -101,6 +101,29 @@ if (curl_errno($curl)) {
 
 curl_close($curl);
 
+// Stores missing from Salesforce — add manually
+$extraStores = [
+    '001b000003gA5ZfAAK' => [
+        'Account' => [
+            'Account_Number_ILog__c' => '0464694',
+            'Hoya_Account_ID__c'     => 'SO3300464694',
+            'Shop_Country__c'        => 'FR',
+            'Name'                   => '',
+            'Shop_Street__c'         => '',
+            'Shop_Postal_Code__c'    => '',
+            'Shop_City__c'           => '',
+        ],
+        'AccountId' => '001b000003gA5ZfAAK',
+    ],
+];
+
+$sfids = array_column($stores, 'AccountId');
+foreach ($extraStores as $sfid => $extra) {
+    if (!in_array($sfid, $sfids)) {
+        $stores[] = $extra;
+    }
+}
+
 
 ?>
 
